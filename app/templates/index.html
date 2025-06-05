@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title style="color: #ea9d9d; font-size: 24px;">My current tasks</title>
+    <style>
+        .my-input {
+          height: 50px;
+          font-size: 24px;
+          padding: 10px;
+          border: 1px solid #ccc;
+          border-radius: 5px;
+        }
+        h1 {
+          color: #ef4444;
+          font-size: 36px;
+        }
+      </style>
+    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body style="background-color: #000000; background-image: url({{ url_for('static', filename='fon/sta.gif') }});">
+    <h1>Список моих задач</h1>
+    <ul><font color="white" size="6" face="Arial">
+        {% for row in rows %}
+        <li>{{ row[1] }} 
+            <form action="/delete" method="post">
+                <input type="hidden" name="task_id" value="{{ row[0] }}">
+                <button type="submit" class="my-button">Удалить задачу</button>
+            </form>
+        {% endfor %}
+    </ul>
+    <form action="/add" method="post">
+        <input type="text" name="task_text" class="my-input" placeholder="Введите задачу">
+        <button type="submit" class="my-button">Добавить задачу</button>
+    </form>
+</font>
+</body>
+</html>

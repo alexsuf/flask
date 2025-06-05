@@ -1,0 +1,34 @@
+services:
+  flask:
+    image: alexsuf/flask
+    container_name: flask
+    stdin_open: true
+    tty: true
+    depends_on:
+      - postgres
+    environment:
+      TZ: Europe/Moscow
+    ports:
+      - 5000:5000
+    command: "python3 /app/app.py"
+    volumes:
+      - ./app:/app
+
+  postgres:
+    image: alexsuf/postgres
+    container_name: postgres
+    restart: always
+    ports:
+      - 1111:5432
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: secret
+      POSTGRES_DB: postgres
+      TZ: Europe/Moscow
+    volumes:
+      - postgres_db:/var/lib/postgresql/data
+      - ./on_startup.sql:/docker-entrypoint-initdb.d/init.sql
+
+volumes:
+  postgres_db:
+    external: true
