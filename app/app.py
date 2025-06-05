@@ -13,9 +13,6 @@ conn = psycopg2.connect(
     user="postgres",
     password="secret"
 )
-# print("Ждем 20 секунд...")
-# time.sleep(20) 
-# Определение курсора
 cur = conn.cursor()
 
 # Определение маршрута для вывода списка задач
@@ -38,7 +35,6 @@ def delete():
     # Удаление задачи из таблицы public.app_tasks
     cur.execute("DELETE FROM public.app_tasks WHERE id = %s", (task_id,))
     conn.commit()
-    # Перенаправление на главную страницу
     return index()
 
 # Определение маршрута для добавления задачи
