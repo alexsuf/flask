@@ -5,7 +5,7 @@ from pprint import pprint
 app = Flask(__name__, template_folder='templates')
 
 conn = psycopg2.connect(
-    host="docker",
+    host="postgres",
     port='5432',
     database="postgres",
     user="postgres",
