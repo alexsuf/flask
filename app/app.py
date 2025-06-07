@@ -5,8 +5,8 @@ from pprint import pprint
 app = Flask(__name__, template_folder='templates')
 
 conn = psycopg2.connect(
-    host="host.docker.internal",
-    port='1111',
+    host="docker",
+    port='5432',
     database="postgres",
     user="postgres",
     password="secret"
@@ -25,14 +25,14 @@ def delete():
     task_id = request.form['task_id']
     cur.execute("DELETE FROM public.app_tasks WHERE id = %s", (task_id,))
     conn.commit()
-    return redirect(url_for('index'))  # ✅ Редирект вместо возврата index()
+    return redirect(url_for('index'))
 
 @app.route('/add', methods=['POST'])
 def add():
     task_text = request.form['task_text']
     cur.execute("INSERT INTO public.app_tasks (task) VALUES (%s)", (task_text,))
     conn.commit()
-    return redirect(url_for('index'))  # ✅ Редирект вместо возврата index()
+    return redirect(url_for('index'))
 
 if __name__ == '__main__':
     app.run(debug=True, host='0.0.0.0', port=5000)

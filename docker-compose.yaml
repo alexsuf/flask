@@ -27,7 +27,7 @@ services:
       POSTGRES_DB: postgres
       TZ: Europe/Moscow
     volumes:
-      - postgres_db:/var/lib/postgresql/data
+      - ./postgres_db:/var/lib/postgresql/data
       - ./on_startup.sql:/docker-entrypoint-initdb.d/init.sql
     healthcheck:
       test: ["CMD-SHELL", "pg_isready -U postgres"]
@@ -35,6 +35,15 @@ services:
       timeout: 5s
       retries: 5
 
-volumes:
-  postgres_db:
-    external: true
+  pgadmin:
+    image: alexsuf/pgadmin
+    container_name: pgadmin
+    ports:
+      - 5050:80   # localhost:5050
+    environment:
+      PGADMIN_DEFAULT_EMAIL: aleksey.zadonsky@gmail.com
+      PGADMIN_DEFAULT_PASSWORD: secret
+      TZ: Europe/Moscow
+    volumes:
+      - ./pgadmin_data:/var/lib/pgadmin
+      - ./FILES:/mnt/files 
